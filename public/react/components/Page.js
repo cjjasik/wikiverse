@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import apiURL from '../api';
 
 export function Page(props) {
 
@@ -6,8 +7,8 @@ export function Page(props) {
   const [pageData, setPageData] = useState({});
 
   async function fetchPageData(){
-    const response = await fetch(`http://localhost:1234/wiki/${props.page.slug}`);
-    console.log("resposne", response);
+    const response = await fetch(`${apiURL}/wiki/${props.page.slug}`)
+    // console.log("response", response);
     const data = await response.json();
     console.log("data", data);
     setPageData(data);
@@ -26,16 +27,16 @@ export function Page(props) {
           {props.page.title}
       </h3>}
 
-
-{/* ************************  AUTHOR  ******************************** */}
-
     
 {/* ************** CURRENT PAGE:   Title, Content + Back Button  **********************/}
     {props.currentPageTitle === props.page.title && 
       <>
         <h3>{props.page.title}</h3>
+        <p><b>Author:</b> {pageData.author.name}</p>
         <p><b>Published:</b> {props.page.createdAt}</p>
         <p>{props.page.content}</p>
+        <p><b>Tags:</b></p>
+        {pageData.tags.map((tag, idx) => <p key={idx}>{tag.name}</p>)}
         <button
           onClick={() => props.setCurrentPageTitle('')}>
             Back to Wiki List
