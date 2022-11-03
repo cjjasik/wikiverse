@@ -121,11 +121,14 @@ router.get("/:slug", async (req, res, next) => {
       ],
     });
     if (page === null) {
+      console.log("404 error")
       res.status(404).send(notFoundPage());
     } else {
+      console.log("page". page)
       res.send(page);
     }
   } catch (error) {
+    console.log("error", error)
     next(error);
   }
 });
